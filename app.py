@@ -1,61 +1,55 @@
 import streamlit as st
 import pandas as pd
 
-# Configuración de la página
-st.set_page_config(page_title="Qatar 2022 Trends Hub", layout="wide")
+st.set_page_config(page_title="Trends Qatar 2022", layout="wide")
 
-st.title("🏆 Analizador de Tendencias: Qatar 2022")
-st.markdown("Generador de enlaces masivos para análisis de datos en Google Trends.")
+st.title("🏆 Google Trends: Qatar 2022")
 
-# --- Función para Cargar Datos ---
 @st.cache_data
 def load_data():
     try:
         return pd.read_csv('partidos_qatar_2022.csv')
-    except FileNotFoundError:
+    except:
         return None
 
-# --- Función para Generar la URL con formato compatible ---
-def generate_google_trends_url(row, geo):
-    # Google Trends requiere %20 para el espacio en la fecha
-    fecha_formateada = f"{row['fecha']}%20{row['fecha']}"
-    # Los IDs de entidad deben ir con sus barras y separados por coma simple
-    query = f"{row['id_local']},{row['id_visitante']}"
+def generate_trends_url(row, geo):
+    # Forzamos los parámetros tal cual los espera Google
+    # %20 es el espacio, y evitamos cualquier otra codificación
+    base = "https://trends.google.com/trends/explore"
+    date_part = f"date={row['fecha']}%20{row['fecha']}"
+    geo_part = f"geo={geo}"
+    q_part = f"q={row['id_local']},{row['id_visitante']}"
+    hl_part = "hl=es-419"
     
-    # Construcción manual para evitar que librerías externas alteren los símbolos
-    base_url = "https://trends.google.com/trends/explore"
-    url = f"{base_url}?date={fecha_formateada}&geo={geo}&q={query}&hl=es-419"
-    return url
+    # Unimos todo con '&' manualmente
+    return f"{base}?{date_part}&{geo_part}&{q_part}&{hl_part}"
 
-# --- Cuerpo de la App ---
 df = load_data()
 
 if df is not None:
-    # Sidebar
-    st.sidebar.header("Configuración")
-    pais_analisis = st.sidebar.selectbox("País (GEO)", ["AR", "MX", "ES", "QA", "US", "BR"], index=0)
+    st.sidebar.header("Filtros")
+    pais = st.sidebar.selectbox("País (GEO)", ["AR", "MX", "ES", "QA", "US", "BR"], index=0)
     
-    fases = df['fase'].unique().tolist()
-    fase_filtro = st.sidebar.multiselect("Filtrar Fase", fases, default=fases)
+    # Procesar
+    df['URL'] = df.apply(lambda x: generate_trends_url(x, pais), axis=1)
     
-    # Filtrado y Generación de URL
-    df_filtered = df[df['fase'].isin(fase_filtro)].copy()
-    df_filtered['URL Google Trends'] = df_filtered.apply(lambda x: generate_google_trends_url(x, pais_analisis), axis=1)
-
-    # Mostrar Tabla
-    st.subheader(f"Listado de Partidos - Analizando desde {pais_analisis}")
+    # Mostrar tabla con configuración de columna de enlace clásica
     st.dataframe(
-        df_filtered,
+        df[['fecha', 'fase', 'local', 'visitante', 'URL']],
         column_config={
-            "URL Google Trends": st.column_config.LinkColumn("Analizar", display_text="Ver Tendencias 📈"),
-            "id_local": None,
-            "id_visitante": None
+            "URL": st.column_config.LinkColumn("Enlace Trends", display_text="Abrir gráfico 📈")
         },
         hide_index=True,
         use_container_width=True
     )
     
-    st.info("Nota: Si el enlace falla, asegúrate de estar logueado en tu cuenta de Google en el navegador.")
-
+    st.markdown("""
+    ---
+    **💡 Si el enlace falla al hacer clic:**
+    Google a veces bloquea el 'salto' desde apps externas. Si ves una página de error:
+    1. Haz **click derecho** sobre 'Abrir gráfico'.
+    2. Selecciona **'Abrir enlace en una ventana de incógnito'**.
+    3. Esto suele saltarse las restricciones de cookies de Google.
+    """)
 else:
-    st.error("No se encontró 'partidos_qatar_2022.csv'.")
+    st.error("No se encontró el archivo CSV.")
