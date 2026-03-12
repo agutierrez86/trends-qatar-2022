@@ -75,7 +75,7 @@ st.markdown("---")
 st.markdown(
     """
     <div style="text-align: center;">
-        <p>Desarrollado por <strong>Sara</strong></p>
+        <p>Desarrollado por <strong>Agustín Gutierrez</strong></p>
         <a href="https://www.linkedin.com/in/agutierrez86/" target="_blank">
             <img src="https://cdn-icons-png.flaticon.com/512/174/174857.png" width="30" height="30" style="vertical-align: middle; margin-right: 10px;">
             Conéctame en LinkedIn
