@@ -85,6 +85,6 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-st.sidebar.info("🏆 **Sara vigila cada búsqueda.**")
+
 st.sidebar.markdown("---")
-st.sidebar.markdown("Desarrollado con ❤️ por Sara")
+st.sidebar.markdown("Desarrollado por Agustín Gutierrez")
