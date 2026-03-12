@@ -3,11 +3,11 @@ import pandas as pd
 import urllib.parse
 from io import BytesIO
 
-# Configuración de la página
-st.set_page_config(page_title="Sara vigila el Mundial", layout="wide", page_icon="⚽")
+# Configuración de la página - Ahora con la Copa del Mundo como logo 🏆
+st.set_page_config(page_title="Sara vigila el Mundial 🏆", layout="wide", page_icon="🏆")
 
-# Título Principal con el nuevo nombre
-st.title("👁️ Sara vigila el Mundial")
+# Título Principal con el nombre y el logo al lado
+st.title("🏆 Sara vigila el Mundial")
 st.markdown("### Análisis histórico de tendencias: Brasil 2014, Rusia 2018 y Qatar 2022")
 
 # --- Funciones Core ---
@@ -50,8 +50,10 @@ for i, (nombre, archivo) in enumerate(mundiales.items()):
         if df is not None:
             st.subheader(f"Partidos de {nombre}")
             
+            # Generar URLs
             df['URL Google Trends'] = df.apply(lambda x: generate_trends_url(x, pais), axis=1)
             
+            # Botón de descarga
             st.download_button(
                 label=f"📥 Descargar {nombre} (Excel)",
                 data=to_excel(df),
@@ -59,6 +61,7 @@ for i, (nombre, archivo) in enumerate(mundiales.items()):
                 key=f"btn_{i}"
             )
             
+            # Mostrar Tabla
             st.dataframe(
                 df[['fecha', 'fase', 'local', 'visitante', 'URL Google Trends']], 
                 column_config={
@@ -68,7 +71,7 @@ for i, (nombre, archivo) in enumerate(mundiales.items()):
                 use_container_width=True
             )
         else:
-            st.warning(f"Archivo '{archivo}' no encontrado.")
+            st.warning(f"Archivo '{archivo}' no encontrado en el repositorio.")
 
 # --- Firma en el Footer ---
 st.markdown("---")
@@ -86,4 +89,6 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-st.sidebar.info("👁️ **Sara vigila cada búsqueda.** Los datos están listos para tu análisis.")
+st.sidebar.info("🏆 **Sara vigila cada búsqueda.** Los datos históricos están listos para tu análisis.")
+st.sidebar.markdown("---")
+st.sidebar.markdown("Desarrollado con ❤️ por Sara")
