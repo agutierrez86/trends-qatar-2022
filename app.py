@@ -77,13 +77,29 @@ for i, (nombre, archivo) in enumerate(mundiales.items()):
                 key=f"btn_{i}"
             )
             
-            # Mostrar Tabla con las nuevas columnas
+            # Mostrar Tabla con columnas ajustadas
             st.dataframe(
                 df[['fecha', 'fase', 'local', 'visitante', 'Previa (2 días antes)', 'Durante (Día del partido)', 'Después (2 días después)']], 
                 column_config={
-                    "Previa (2 días antes)": st.column_config.LinkColumn("Previa", display_text="🔍"),
-                    "Durante (Día del partido)": st.column_config.LinkColumn("Durante", display_text="⚽"),
-                    "Después (2 días después)": st.column_config.LinkColumn("Después", display_text="📉")
+                    "fecha": st.column_config.Column("Fecha", width="small"),
+                    "fase": st.column_config.Column("Fase", width="medium"),
+                    "local": st.column_config.Column("Local", width="medium"),
+                    "visitante": st.column_config.Column("Visitante", width="medium"),
+                    "Previa (2 días antes)": st.column_config.LinkColumn(
+                        "Previa", 
+                        display_text="🔍", 
+                        width=60
+                    ),
+                    "Durante (Día del partido)": st.column_config.LinkColumn(
+                        "Durante", 
+                        display_text="⚽", 
+                        width=60
+                    ),
+                    "Después (2 días después)": st.column_config.LinkColumn(
+                        "Después", 
+                        display_text="📉", 
+                        width=60
+                    )
                 },
                 hide_index=True, 
                 use_container_width=True
@@ -105,4 +121,3 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
-
