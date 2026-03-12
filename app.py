@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import urllib.parse
 
 st.set_page_config(page_title="Trends Qatar 2022", layout="wide")
 
@@ -8,24 +9,34 @@ st.title("🏆 Google Trends: Qatar 2022")
 @st.cache_data
 def load_data():
     try:
+        # Cargamos el CSV que ya tienes en GitHub
         return pd.read_csv('partidos_qatar_2022.csv')
     except:
         return None
 
 def generate_trends_url(row, geo):
-    # Paso 1: Codificamos manualmente los IDs para que Google no se confunda
-    # Reemplazamos "/" por "%2F"
-    id1 = row['id_local'].replace("/", "%2F")
-    id2 = row['id_visitante'].replace("/", "%2F")
+    # En lugar de usar los IDs que dan error 404, usamos los nombres de los equipos
+    # Esto es mucho más estable para generar links externos
+    query = f"{row['local']},{row['visitante']}"
     
-    # Paso 2: Construimos la query comparativa separada por coma codificada (%2C)
-    q_param = f"{id1}%2C{id2}"
+    # Rango de fecha: día del partido y el siguiente para capturar todo el volumen
+    # Google Trends acepta mejor rangos de al menos 2 días para términos de texto
+    fecha_inicio = row['fecha']
+    # Creamos un rango de un día (ej: 2022-11-20 2022-11-20)
+    date_param = f"{fecha_inicio} {fecha_inicio}"
     
-    # Paso 3: Rango de fecha con espacio codificado (%20)
-    date_param = f"{row['fecha']}%20{row['fecha']}"
+    params = {
+        "date": date_param,
+        "geo": geo,
+        "q": query,
+        "hl": "es-419"
+    }
     
     base_url = "https://trends.google.com/trends/explore"
-    return f"{base_url}?date={date_param}&geo={geo}&q={q_param}&hl=es-419"
+    # urlencode se encarga de que los espacios y comas sean correctos
+    encoded_params = urllib.parse.urlencode(params)
+    
+    return f"{base_url}?{encoded_params}"
 
 df = load_data()
 
@@ -33,17 +44,22 @@ if df is not None:
     st.sidebar.header("Filtros")
     pais = st.sidebar.selectbox("País (GEO)", ["AR", "MX", "ES", "QA", "US", "BR"], index=0)
     
-    # Generar URLs con la nueva lógica de codificación
+    # Generar URLs basadas en nombres de equipos
     df['URL'] = df.apply(lambda x: generate_trends_url(x, pais), axis=1)
     
-    # Tabla limpia
+    # Tabla
     st.dataframe(
         df[['fecha', 'fase', 'local', 'visitante', 'URL']],
         column_config={
-            "URL": st.column_config.LinkColumn("Enlace Trends", display_text="Ver Comparativa 📈")
+            "URL": st.column_config.LinkColumn("Enlace Trends", display_text="Ver Tendencias 📈"),
+            "fecha": "Fecha",
+            "local": "Local",
+            "visitante": "Visitante"
         },
         hide_index=True,
         use_container_width=True
     )
+    
+    st.info("💡 Al usar nombres de equipos en lugar de IDs técnicos, los enlaces son ahora compatibles con todos los navegadores.")
 else:
-    st.error("Archivo CSV no detectado.")
+    st.error("No se encontró 'partidos_qatar_2022.csv'.")
