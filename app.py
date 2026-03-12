@@ -3,10 +3,10 @@ import pandas as pd
 import urllib.parse
 from io import BytesIO
 
-# Configuración de la página - Ahora con la Copa del Mundo como logo 🏆
+# Configuración de la página con el logo de la copa 🏆
 st.set_page_config(page_title="Sara vigila el Mundial 🏆", layout="wide", page_icon="🏆")
 
-# Título Principal con el nombre y el logo al lado
+# Título Principal
 st.title("🏆 Sara vigila el Mundial")
 st.markdown("### Análisis histórico de tendencias: Brasil 2014, Rusia 2018 y Qatar 2022")
 
@@ -50,10 +50,8 @@ for i, (nombre, archivo) in enumerate(mundiales.items()):
         if df is not None:
             st.subheader(f"Partidos de {nombre}")
             
-            # Generar URLs
             df['URL Google Trends'] = df.apply(lambda x: generate_trends_url(x, pais), axis=1)
             
-            # Botón de descarga
             st.download_button(
                 label=f"📥 Descargar {nombre} (Excel)",
                 data=to_excel(df),
@@ -61,7 +59,6 @@ for i, (nombre, archivo) in enumerate(mundiales.items()):
                 key=f"btn_{i}"
             )
             
-            # Mostrar Tabla
             st.dataframe(
                 df[['fecha', 'fase', 'local', 'visitante', 'URL Google Trends']], 
                 column_config={
@@ -71,16 +68,15 @@ for i, (nombre, archivo) in enumerate(mundiales.items()):
                 use_container_width=True
             )
         else:
-            st.warning(f"Archivo '{archivo}' no encontrado en el repositorio.")
+            st.warning(f"Archivo '{archivo}' no encontrado.")
 
-# --- Firma en el Footer ---
+# --- Firma en el Footer con tu LinkedIn ---
 st.markdown("---")
-# Reemplaza 'TU_PERFIL' con tu ID de LinkedIn real
 st.markdown(
     """
     <div style="text-align: center;">
         <p>Desarrollado por <strong>Sara</strong></p>
-        <a href="https://www.linkedin.com/in/TU_PERFIL" target="_blank">
+        <a href="https://www.linkedin.com/in/agutierrez86/" target="_blank">
             <img src="https://cdn-icons-png.flaticon.com/512/174/174857.png" width="30" height="30" style="vertical-align: middle; margin-right: 10px;">
             Conéctame en LinkedIn
         </a>
@@ -89,6 +85,6 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-st.sidebar.info("🏆 **Sara vigila cada búsqueda.** Los datos históricos están listos para tu análisis.")
+st.sidebar.info("🏆 **Sara vigila cada búsqueda.**")
 st.sidebar.markdown("---")
 st.sidebar.markdown("Desarrollado con ❤️ por Sara")
