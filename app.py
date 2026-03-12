@@ -23,20 +23,23 @@ try:
     fase_filtro = st.sidebar.multiselect("Filtrar por Fase", df['fase'].unique(), default=df['fase'].unique())
     
     # --- Lógica de Generación de URL ---
-    def generate_google_trends_url(row, geo):
-        # Usamos la fecha del partido. Formato: YYYY-MM-DD YYYY-MM-DD
-        date_range = f"{row['fecha']} {row['fecha']}"
-        # Comparamos ambos equipos en la misma búsqueda (separados por coma)
-        query = f"{row['id_local']},{row['id_visitante']}"
-        
-        params = {
-            "date": date_range,
-            "geo": geo,
-            "q": query,
-            "hl": "es-419"
-        }
-        base_url = "https://trends.google.com/trends/explore"
-        return f"{base_url}?{urllib.parse.urlencode(params)}"
+   def generate_google_trends_url(row, geo):
+    # Usamos %20 explícitamente para el espacio entre fechas
+    date_range = f"{row['fecha']}%20{row['fecha']}"
+    
+    # La coma entre IDs a veces da error si se codifica, 
+    # la dejamos simple o usamos %2C
+    query = f"{row['id_local']},{row['id_visitante']}"
+    
+    # Construimos la URL manualmente para asegurar el formato exacto que Google acepta
+    url = (
+        f"https://trends.google.com/trends/explore"
+        f"?date={date_range}"
+        f"&geo={geo}"
+        f"&q={query}"
+        f"&hl=es-419"
+    )
+    return url
 
     # Aplicar filtros
     mask = df['fase'].isin(fase_filtro)
