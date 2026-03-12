@@ -1,0 +1,65 @@
+fecha,fase,local,visitante,id_local,id_visitante
+2022-11-20,Fase de Grupos,Qatar,Ecuador,/m/06497,/m/02h7p
+2022-11-21,Fase de Grupos,Inglaterra,Irán,/m/02p_f,/m/03v0s
+2022-11-21,Fase de Grupos,Senegal,Países Bajos,/m/06p6q,/m/05m00
+2022-11-21,Fase de Grupos,EE. UU.,Gales,/m/07_m_,/m/081xv
+2022-11-22,Fase de Grupos,Argentina,Arabia Saudita,/m/0j47,/m/06m2v
+2022-11-22,Fase de Grupos,Dinamarca,Túnez,/m/02685,/m/07m_0
+2022-11-22,Fase de Grupos,México,Polonia,/m/056_y,/m/05v7v
+2022-11-22,Fase de Grupos,Francia,Australia,/m/02_z_,/m/0166m
+2022-11-23,Fase de Grupos,Marruecos,Croacia,/m/0572t,/m/01p28
+2022-11-23,Fase de Grupos,Alemania,Japón,/m/039cl,/m/03_94
+2022-11-23,Fase de Grupos,España,Costa Rica,/m/07875,/m/01p_t
+2022-11-23,Fase de Grupos,Bélgica,Canadá,/m/017p8,/m/01p9j
+2022-11-24,Fase de Grupos,Suiza,Camerún,/m/07706,/m/01y9j
+2022-11-24,Fase de Grupos,Uruguay,Corea del Sur,/m/07t9p,/m/0491x
+2022-11-24,Fase de Grupos,Portugal,Ghana,/m/05vdx,/m/036v6
+2022-11-24,Fase de Grupos,Brasil,Serbia,/m/01p2n,/m/04670
+2022-11-25,Fase de Grupos,Gales,Irán,/m/081xv,/m/03v0s
+2022-11-25,Fase de Grupos,Qatar,Senegal,/m/06497,/m/06p6q
+2022-11-25,Fase de Grupos,Países Bajos,Ecuador,/m/05m00,/m/02h7p
+2022-11-25,Fase de Grupos,Inglaterra,EE. UU.,/m/02p_f,/m/07_m_
+2022-11-26,Fase de Grupos,Túnez,Australia,/m/07m_0,/m/0166m
+2022-11-26,Fase de Grupos,Polonia,Arabia Saudita,/m/05v7v,/m/06m2v
+2022-11-26,Fase de Grupos,Francia,Dinamarca,/m/02_z_,/m/02685
+2022-11-26,Fase de Grupos,Argentina,México,/m/0j47,/m/056_y
+2022-11-27,Fase de Grupos,Japón,Costa Rica,/m/03_94,/m/01p_t
+2022-11-27,Fase de Grupos,Bélgica,Marruecos,/m/017p8,/m/0572t
+2022-11-27,Fase de Grupos,Croacia,Canadá,/m/01p28,/m/01p9j
+2022-11-27,Fase de Grupos,España,Alemania,/m/07875,/m/039cl
+2022-11-28,Fase de Grupos,Camerún,Serbia,/m/01y9j,/m/04670
+2022-11-28,Fase de Grupos,Corea del Sur,Ghana,/m/0491x,/m/036v6
+2022-11-28,Fase de Grupos,Brasil,Suiza,/m/01p2n,/m/07706
+2022-11-28,Fase de Grupos,Portugal,Uruguay,/m/05vdx,/m/07t9p
+2022-11-29,Fase de Grupos,Ecuador,Senegal,/m/02h7p,/m/06p6q
+2022-11-29,Fase de Grupos,Países Bajos,Qatar,/m/05m00,/m/06497
+2022-11-29,Fase de Grupos,Irán,EE. UU.,/m/03v0s,/m/07_m_
+2022-11-29,Fase de Grupos,Gales,Inglaterra,/m/081xv,/m/02p_f
+2022-11-30,Fase de Grupos,Túnez,Francia,/m/07m_0,/m/02_z_
+2022-11-30,Fase de Grupos,Australia,Dinamarca,/m/0166m,/m/02685
+2022-11-30,Fase de Grupos,Polonia,Argentina,/m/05v7v,/m/0j47
+2022-11-30,Fase de Grupos,Arabia Saudita,México,/m/06m2v,/m/056_y
+2022-12-01,Fase de Grupos,Croacia,Bélgica,/m/01p28,/m/017p8
+2022-12-01,Fase de Grupos,Canadá,Marruecos,/m/01p9j,/m/0572t
+2022-12-01,Fase de Grupos,Japón,España,/m/03_94,/m/07875
+2022-12-01,Fase de Grupos,Costa Rica,Alemania,/m/01p_t,/m/039cl
+2022-12-02,Fase de Grupos,Corea del Sur,Portugal,/m/0491x,/m/05vdx
+2022-12-02,Fase de Grupos,Ghana,Uruguay,/m/036v6,/m/07t9p
+2022-12-02,Fase de Grupos,Serbia,Suiza,/m/04670,/m/07706
+2022-12-02,Fase de Grupos,Camerún,Brasil,/m/01y9j,/m/01p2n
+2022-12-03,Octavos de Final,Países Bajos,EE. UU.,/m/05m00,/m/07_m_
+2022-12-03,Octavos de Final,Argentina,Australia,/m/0j47,/m/0166m
+2022-12-04,Octavos de Final,Francia,Polonia,/m/02_z_,/m/05v7v
+2022-12-04,Octavos de Final,Inglaterra,Senegal,/m/02p_f,/m/06p6q
+2022-12-05,Octavos de Final,Japón,Croacia,/m/03_94,/m/01p28
+2022-12-05,Octavos de Final,Brasil,Corea del Sur,/m/01p2n,/m/0491x
+2022-12-06,Octavos de Final,Marruecos,España,/m/0572t,/m/07875
+2022-12-06,Octavos de Final,Portugal,Suiza,/m/05vdx,/m/07706
+2022-12-09,Cuartos de Final,Croacia,Brasil,/m/01p28,/m/01p2n
+2022-12-09,Cuartos de Final,Países Bajos,Argentina,/m/05m00,/m/0j47
+2022-12-10,Cuartos de Final,Marruecos,Portugal,/m/0572t,/m/05vdx
+2022-12-10,Cuartos de Final,Inglaterra,Francia,/m/02p_f,/m/02_z_
+2022-12-13,Semifinales,Argentina,Croacia,/m/0j47,/m/01p28
+2022-12-14,Semifinales,Francia,Marruecos,/m/02_z_,/m/0572t
+2022-12-17,Tercer Puesto,Croacia,Marruecos,/m/01p28,/m/0572t
+2022-12-18,Final,Argentina,Francia,/m/0j47,/m/02_z_
