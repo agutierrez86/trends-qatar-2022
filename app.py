@@ -1,108 +1,61 @@
 import streamlit as st
 import pandas as pd
-import urllib.parse
 
 # Configuración de la página
 st.set_page_config(page_title="Qatar 2022 Trends Hub", layout="wide")
 
 st.title("🏆 Analizador de Tendencias: Qatar 2022")
-st.markdown("""
-Esta herramienta genera enlaces precisos a Google Trends para cada partido, 
-utilizando identificadores de entidad para evitar errores de búsqueda.
-""")
+st.markdown("Generador de enlaces masivos para análisis de datos en Google Trends.")
 
 # --- Función para Cargar Datos ---
 @st.cache_data
 def load_data():
     try:
-        # Intenta cargar el archivo CSV
         return pd.read_csv('partidos_qatar_2022.csv')
     except FileNotFoundError:
         return None
 
-# --- Función para Generar la URL de Google Trends ---
+# --- Función para Generar la URL con formato compatible ---
 def generate_google_trends_url(row, geo):
-    # Google Trends usa el espacio como separador de rango de fechas
-    date_range = f"{row['fecha']} {row['fecha']}"
-    
-    # Comparamos ambos equipos (local vs visitante)
+    # Google Trends requiere %20 para el espacio en la fecha
+    fecha_formateada = f"{row['fecha']}%20{row['fecha']}"
+    # Los IDs de entidad deben ir con sus barras y separados por coma simple
     query = f"{row['id_local']},{row['id_visitante']}"
     
-    # Parámetros de la URL
-    params = {
-        "date": date_range,
-        "geo": geo,
-        "q": query,
-        "hl": "es-419"
-    }
-    
-    # urllib.parse.urlencode se encarga de convertir "/" en "%2F" y "," en "%2C"
-    # Esto es VITAL para que Google Trends no tire error.
+    # Construcción manual para evitar que librerías externas alteren los símbolos
     base_url = "https://trends.google.com/trends/explore"
-    encoded_params = urllib.parse.urlencode(params)
-    
-    return f"{base_url}?{encoded_params}"
+    url = f"{base_url}?date={fecha_formateada}&geo={geo}&q={query}&hl=es-419"
+    return url
 
-# --- Cuerpo Principal de la App ---
+# --- Cuerpo de la App ---
 df = load_data()
 
 if df is not None:
-    # --- Sidebar: Filtros ---
-    st.sidebar.header("Configuración de Análisis")
+    # Sidebar
+    st.sidebar.header("Configuración")
+    pais_analisis = st.sidebar.selectbox("País (GEO)", ["AR", "MX", "ES", "QA", "US", "BR"], index=0)
     
-    pais_analisis = st.sidebar.selectbox(
-        "País de origen de las búsquedas (GEO)", 
-        ["AR", "MX", "ES", "QA", "US", "BR", "FR", "GB"], 
-        index=0
-    )
+    fases = df['fase'].unique().tolist()
+    fase_filtro = st.sidebar.multiselect("Filtrar Fase", fases, default=fases)
     
-    fases_disponibles = df['fase'].unique().tolist()
-    fase_filtro = st.sidebar.multiselect(
-        "Filtrar por Fase del Mundial", 
-        fases_disponibles, 
-        default=fases_disponibles
-    )
-    
-    # Aplicar filtros al DataFrame
-    mask = df['fase'].isin(fase_filtro)
-    df_filtered = df[mask].copy()
+    # Filtrado y Generación de URL
+    df_filtered = df[df['fase'].isin(fase_filtro)].copy()
+    df_filtered['URL Google Trends'] = df_filtered.apply(lambda x: generate_google_trends_url(x, pais_analisis), axis=1)
 
-    # Generar la Columna de URLs usando nuestra función segura
-    df_filtered['URL Google Trends'] = df_filtered.apply(
-        lambda x: generate_google_trends_url(x, pais_analisis), axis=1
-    )
-
-    # --- Mostrar Tabla ---
-    st.subheader(f"Partidos Seleccionados - Analizando desde: {pais_analisis}")
-    
+    # Mostrar Tabla
+    st.subheader(f"Listado de Partidos - Analizando desde {pais_analisis}")
     st.dataframe(
         df_filtered,
         column_config={
-            "URL Google Trends": st.column_config.LinkColumn(
-                "Enlace de Análisis", 
-                display_text="Ver Tendencias 📈"
-            ),
-            "fecha": "Fecha",
-            "fase": "Etapa",
-            "local": "Local",
-            "visitante": "Visitante",
-            "id_local": None,     # Ocultamos estas columnas técnicas
+            "URL Google Trends": st.column_config.LinkColumn("Analizar", display_text="Ver Tendencias 📈"),
+            "id_local": None,
             "id_visitante": None
         },
         hide_index=True,
         use_container_width=True
     )
+    
+    st.info("Nota: Si el enlace falla, asegúrate de estar logueado en tu cuenta de Google en el navegador.")
 
-    # --- Footer Informativo ---
-    st.markdown("---")
-    with st.expander("📝 Instrucciones para completar tu reporte (Columnas 5 y 6)"):
-        st.write("""
-        Para extraer **Búsquedas Relacionadas** y **Temas Relacionados**:
-        1. Haz clic en el botón **'Ver Tendencias 📈'** del partido que te interese.
-        2. Al abrirse la página de Google Trends, baja hasta la sección final.
-        3. Encontrarás los paneles de 'Temas relacionados' y 'Consultas relacionadas'.
-        4. Puedes ver los datos directamente o descargarlos en CSV usando el botón ⬇️ en cada panel de Google.
-        """)
 else:
-    st.error("⚠️ No se encontró el archivo **'partidos_qatar_2022.csv'**.")
-    st.info("Asegúrate de haber subido el CSV con los 64 partidos a tu repositorio de GitHub.")
+    st.error("No se encontró 'partidos_qatar_2022.csv'.")
